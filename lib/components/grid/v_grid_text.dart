@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v2/components/card/v_card_text.dart';
 import 'package:flutter/widgets.dart';
