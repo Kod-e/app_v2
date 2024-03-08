@@ -20,9 +20,7 @@ class _VGridTextState extends State<VGridText> {
         [
           VCardText(),
           VCardText(),
-          VCardText(),
-          VCardText(),
-          VCardText(),
+
         ],
       ),
     );

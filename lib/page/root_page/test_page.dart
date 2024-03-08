@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v2/components/grid/v_grid_text.dart';
 import 'package:app_v2/components/grid/t_grid_text.dart';
+import 'package:app_v2/components/bar/v_grid_title_bar.dart';
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
 
@@ -28,7 +29,7 @@ class _TestPageState extends State<TestPage> {
           slivers: <Widget>[
             TGridText(axisCount: axisCount),
             VGridText(axisCount: axisCount),
-            VGridText(axisCount: axisCount),
+            VGridTitleBar(), //这是一个SliverList
             // 添加更多的VGridText组件
           ],
         );

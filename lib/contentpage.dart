@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'page/generator_page.dart';
-import 'page/profile.dart';
-import 'page/test_page.dart';
-
+import 'page/root_page/generator_page.dart';
+import 'page/root_page/profile.dart';
+import 'page/root_page/test_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -10,7 +9,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   var selectedIndex = 0;
 
   @override
@@ -19,18 +17,18 @@ class _MyHomePageState extends State<MyHomePage> {
     //页面列表
     Widget page;
     switch (selectedIndex) {
-      case 0://主页
+      case 0: //主页
         page = GeneratorPage();
         break;
-      case 1://作者
+      case 1: //作者
         page = Placeholder();
         break;
-      case 2://收藏
+      case 2: //收藏
         page = TestPage();
-      break;
-      case 3://个人
+        break;
+      case 3: //个人
         page = ProfilePage();
-      break;
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -43,21 +41,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     //自适应Build，用于传递constraints来检测屏幕宽度
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 450) {
-            // Use a more mobile-friendly layout with BottomNavigationBar
-            // on narrow screens.
-            return Column(
-              children: [
-                Expanded(child: mainArea),
-                SafeArea(
-                  child: BottomNavigationBar(
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth < 450) {
+              return Column(
+                children: [
+                  Expanded(child: mainArea),
+                  BottomNavigationBar(
                     selectedItemColor: colorScheme.secondary,
                     unselectedItemColor: colorScheme.secondary,
                     items: [
                       BottomNavigationBarItem(
-                        // backgroundColor: colorScheme.secondary,
                         icon: Icon(Icons.home),
                         label: 'Home',
                       ),
@@ -67,11 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.terminal),
-                        label: 'Test',
+                        label: '测试',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.person),
-                        label: 'Profile',
+                        label: '设置',
                       ),
                     ],
                     currentIndex: selectedIndex,
@@ -80,32 +75,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         selectedIndex = value;
                       });
                     },
-                  ),
-                )
-              ],
-            );
-          } else {
-            return Row(
-              children: [
-                SafeArea(
-                  child: NavigationRail(
+                  )
+                ],
+              );
+            } else {
+              return Row(
+                children: [
+                  NavigationRail(
                     extended: constraints.maxWidth >= 750,
                     destinations: [
                       NavigationRailDestination(
                         icon: Icon(Icons.home),
-                        label: Text('Home'),
+                        label: Text('主页'),
                       ),
                       NavigationRailDestination(
                         icon: Icon(Icons.favorite),
-                        label: Text('Favorites'),
+                        label: Text('收藏夹'),
                       ),
                       NavigationRailDestination(
                         icon: Icon(Icons.favorite),
-                        label: Text('Favorites'),
+                        label: Text('测试页面'),
                       ),
                       NavigationRailDestination(
                         icon: Icon(Icons.person),
-                        label: Text('Profile'),
+                        label: Text('设置'),
                       ),
                     ],
                     selectedIndex: selectedIndex,
@@ -115,12 +108,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       });
                     },
                   ),
-                ),
-                Expanded(child: mainArea),
-              ],
-            );
-          }
-        },
+                  Expanded(child: mainArea),
+                ],
+              );
+            }
+          },
+        ),
       ),
     );
   }

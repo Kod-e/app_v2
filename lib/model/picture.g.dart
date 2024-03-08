@@ -7,9 +7,9 @@ part of 'picture.dart';
 // **************************************************************************
 
 Picture _$PictureFromJson(Map<String, dynamic> json) => Picture(
-      jpg: json['jpg'] as String,
-      webp: json['webp'] as String,
-      avif: json['avif'] as String,
+      jpg: json['jpg'] as String?,
+      webp: json['webp'] as String?,
+      avif: json['avif'] as String?,
     );
 
 Map<String, dynamic> _$PictureToJson(Picture instance) => <String, dynamic>{

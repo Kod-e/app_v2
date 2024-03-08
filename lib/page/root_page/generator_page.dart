@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_v2/main.dart';
 import 'package:provider/provider.dart';
-import '../comp/bigcard.dart';
+import '../../components/card/bigcard.dart';
 
 class GeneratorPage extends StatelessWidget {
   @override

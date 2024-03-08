@@ -7,11 +7,13 @@ part of 'video.dart';
 // **************************************************************************
 
 Video _$VideoFromJson(Map<String, dynamic> json) => Video(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      picture: Picture.fromJson(json['picture'] as Map<String, dynamic>),
-      subtitle: json['subtitle'] as String,
-      description: json['description'] as String,
+      id: json['id'] as int,
+      name: json['name'] as String?,
+      picture: json['picture'] == null
+          ? null
+          : Picture.fromJson(json['picture'] as Map<String, dynamic>),
+      subtitle: json['subtitle'] as String?,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$VideoToJson(Video instance) => <String, dynamic>{

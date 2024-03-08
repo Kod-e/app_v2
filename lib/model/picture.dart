@@ -4,11 +4,11 @@ part 'picture.g.dart';
 
 @JsonSerializable()
 class Picture {
-  final String jpg;
-  final String webp;
-  final String avif;
+  final String? jpg;
+  final String? webp;
+  final String? avif;
 
-  Picture({required this.jpg, required this.webp, required this.avif});
+  Picture({this.jpg, this.webp, this.avif});
 
   factory Picture.fromJson(Map<String, dynamic> json) => _$PictureFromJson(json);
 
