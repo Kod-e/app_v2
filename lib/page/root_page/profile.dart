@@ -63,9 +63,9 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () async {
                 // var respones =await dio.get("tag/get/data?id=31");
                 // print(respones);
-                var tag = await TagAPI().getTagData(31);
+                var tag = await TagAPI.getTagData(31);
                 print("name: ${tag.name}");
-                var videos = await TagAPI().getTagVideos(31);
+                var videos = await TagAPI.getTagVideos(31);
                 for (var video in videos) {
                   print("video: ${video.name}");
                 }

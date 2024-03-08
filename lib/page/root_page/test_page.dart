@@ -1,3 +1,4 @@
+import 'package:app_v2/model/tag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v2/components/grid/v_grid_text.dart';
@@ -11,6 +12,7 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
+  final List<Tag> tags = List.generate(20, (index) => Tag.loading());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,9 +29,8 @@ class _TestPageState extends State<TestPage> {
         }
         return CustomScrollView(
           slivers: <Widget>[
-            TGridText(axisCount: axisCount),
-            VGridText(axisCount: axisCount),
-            VGridTitleBar(), //这是一个SliverList
+            TGridText(tags: tags,axisCount: axisCount,),
+            // VGridTitleBar(), //这是一个SliverList
             // 添加更多的VGridText组件
           ],
         );

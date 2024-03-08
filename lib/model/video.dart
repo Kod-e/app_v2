@@ -21,6 +21,20 @@ class Video {
     this.subtitle, 
     this.description
   });
+  
+  factory Video.loading() {
+    return Video(
+      id: 0, 
+      name: '加载中...', 
+      picture: Picture(
+        jpg: 'https://www.loliapi.com/acg/',
+        webp: 'https://www.loliapi.com/acg/',
+        avif: 'https://www.loliapi.com/acg/',
+      ), 
+      subtitle: '加载中...', 
+      description: '加载中...'
+    );
+  }
 
   factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
 

@@ -1,8 +1,10 @@
+import 'package:app_v2/model/video.dart';
 import 'package:app_v2/page/content_page/video_content_page.dart';
 import 'package:flutter/material.dart';
 
 class VCardText extends StatefulWidget {
-  const VCardText({super.key});
+  final Video video;
+  const VCardText({Key? key, required this.video}) : super(key: key);
 
   @override
   State<VCardText> createState() => _VCardTextState();
@@ -26,17 +28,25 @@ class _VCardTextState extends State<VCardText> {
           theme.textTheme.labelSmall!.copyWith(color: descriptionColor);
       double paddingHeight = 5;
       double sizeboxHeight = 1;
-      if (constraints.maxWidth > 220) {
+      int descriptionLine = 2;
+      if (constraints.maxWidth > 250) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
+        descriptionStyle =
+            theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
+        paddingHeight = 8;
+        sizeboxHeight = 3;
+        descriptionLine = 3;
+      } else if (constraints.maxWidth > 220) {
         titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
         descriptionStyle =
             theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
         paddingHeight = 8;
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 200) {
-        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
+        titleStyle = theme.textTheme.bodyMedium!.copyWith(color: titleColor);
         descriptionStyle =
-            theme.textTheme.bodySmall!.copyWith(color: descriptionColor);
-        paddingHeight = 8;
+            theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
+        paddingHeight = 5;
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 180) {
         titleStyle = theme.textTheme.bodyMedium!.copyWith(color: titleColor);
@@ -63,14 +73,14 @@ class _VCardTextState extends State<VCardText> {
                 borderRadius: BorderRadius.circular(8.0),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Image.asset(
-                    'assets/img181.webp',
+                  child: Image.network(
+                    this.widget.video.picture!.jpg!,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(paddingHeight),
+                padding: EdgeInsets.fromLTRB(paddingHeight+5,paddingHeight,paddingHeight+5,0),
                 child: Column(
                   children: [
                     SizedBox(
@@ -79,7 +89,7 @@ class _VCardTextState extends State<VCardText> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "这是标题这是标题",
+                        this.widget.video.name!,
                         style: titleStyle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -91,8 +101,10 @@ class _VCardTextState extends State<VCardText> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "这是描述这是描述 这是描述这是描述 这是描述这是描述",
-                        //...你的其他代码
+                        this.widget.video.description!,
+                        style: descriptionStyle,
+                        maxLines: descriptionLine,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

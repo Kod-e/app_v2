@@ -5,8 +5,12 @@ class VContentAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return AppBar(
       // 在这里定义你的 AppBar
+            // 在这里定义你的 AppBar
+      title: Text('Video Content'),
+      backgroundColor: theme.colorScheme.surfaceVariant,
     );
   }
 

@@ -1,11 +1,13 @@
+import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/page/content_page/tag_content_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class TCardText extends StatefulWidget {
-  const TCardText({super.key});
-
+  final Tag tag;
+  const TCardText({Key? key, required this.tag}) : super(key: key);
+  
   @override
   State<TCardText> createState() => _TCardTextState();
 }
@@ -37,7 +39,7 @@ class _TCardTextState extends State<TCardText> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return TagContentPage();
+              return TagContentPage(tag: this.widget.tag);
             }),
           );
         },
@@ -49,8 +51,8 @@ class _TCardTextState extends State<TCardText> {
               child: Stack(children: [
                 //图片
                 Positioned.fill(
-                  child: Image.asset(
-                    'assets/img181.webp',
+                  child: Image.network(
+                    this.widget.tag.picture!.jpg!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -73,7 +75,7 @@ class _TCardTextState extends State<TCardText> {
                 Positioned(
                   bottom: bP,
                   left: leftP,
-                  child: Text('标签的标题', style: titleStyle),
+                  child: Text(this.widget.tag.name!, style: titleStyle),
                 ),
               ]),
             ),

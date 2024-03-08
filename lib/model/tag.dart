@@ -37,6 +37,23 @@ class Tag {
     this.videos
   });
 
+  factory Tag.loading() {
+    return Tag(
+      id: 1, 
+      name: '加载中...', 
+      picture: Picture(
+        jpg: 'https://www.loliapi.com/acg/',
+        webp: 'https://www.loliapi.com/acg/',
+        avif: 'https://www.loliapi.com/acg/',
+      ), 
+      description: '加载中...',
+      parentId: 0,
+      isMain: false,
+      tags: [],
+      videos: []
+    );
+  }
+
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
