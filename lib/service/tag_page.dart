@@ -1,8 +1,9 @@
 import 'package:app_v2/model/video.dart';
 import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/api/tag.dart';
+import 'package:flutter/material.dart';
 
-class TagPageService {
+class TagPageService with ChangeNotifier {
   // ignore: non_constant_identifier_names
   int page_count = 30;
 
@@ -46,9 +47,11 @@ class TagPageService {
     // 计算页数
     videoPageCount = (countData['video_num']! / page_count).ceil();
     tagPageCount = (countData['tag_num']! / page_count).ceil();
+    notifyListeners();
   }
   //获取指定的video页面
   Future<void> ToVideoPage(int page) async {
+    //如果缓存中不存在就获取
     if (videosByPage[page] == null) {
       var videos = await TagAPI.getTagVideos(tag.id, page: page, pageCount: page_count);
       videosByPage[page] = videos;
@@ -56,9 +59,13 @@ class TagPageService {
     if (videosByPage[page] != null){
       videoNowPage = videosByPage[page]!;
     }
+    //设置offset
+    videoPageOffset = page;
+    notifyListeners();
   }
   //获取指定的tag页面
   Future<void> ToTagPage(int page) async {
+    //如果缓存中不存在就获取
     if (tagsByPage[page] == null) {
       var tags = await TagAPI.getTagTags(tag.id, page: page, pageCount: page_count);
       tagsByPage[page] = tags;
@@ -66,5 +73,8 @@ class TagPageService {
     if (tagsByPage[page] != null){
       tagNowPage = tagsByPage[page]!;
     }
+    //设置offset
+    tagPageOffset = page;
+    notifyListeners();
   }
 }

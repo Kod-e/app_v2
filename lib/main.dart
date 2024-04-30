@@ -8,8 +8,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final MyNavigatorObserver _myNavigatorObserver = MyNavigatorObserver(
+    onNavigation: (isNavigating) {
+    },
+  );
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -18,9 +20,10 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         ),
         home: MyHomePage(),
+        navigatorObservers: [_myNavigatorObserver],
       ),
     );
   }
@@ -44,3 +47,38 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
+
+class MyNavigatorObserver extends NavigatorObserver {
+  final ValueChanged<bool> onNavigation;
+
+  MyNavigatorObserver({required this.onNavigation});
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+    onNavigation(true);
+  }
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    super.didPop(route, previousRoute);
+    onNavigation(false);
+  }
+}
+class AppProvider extends InheritedWidget {
+  final MyNavigatorObserver navigatorObserver;
+
+  AppProvider({
+    required Widget child,
+    required this.navigatorObserver,
+  }) : super(child: child);
+
+  @override
+  bool updateShouldNotify(AppProvider oldWidget) {
+    return navigatorObserver != oldWidget.navigatorObserver;
+  }
+
+  static MyNavigatorObserver of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<AppProvider>()!.navigatorObserver;
+  }
+}

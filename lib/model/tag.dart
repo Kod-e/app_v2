@@ -1,6 +1,4 @@
 // tag.dart
-import 'dart:ffi';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:app_v2/model/video.dart';
 import 'picture.dart';
@@ -9,7 +7,7 @@ part 'tag.g.dart';
 
 @JsonSerializable()
 class Tag {
-  final int id;
+  int id;
   final String? name;
   final Picture? picture;
   final String? description;

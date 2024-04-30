@@ -1,5 +1,6 @@
 import 'package:app_v2/components/grid/t_grid_text.dart';
 import 'package:app_v2/components/grid/v_grid_text.dart';
+import 'package:app_v2/components/grid/vt_grid_text.dart';
 import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/model/video.dart';
 import 'package:app_v2/service/tag_page.dart';
@@ -54,11 +55,13 @@ class _TagContentPageState extends State<TagContentPage>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    var theme = Theme.of(context);
+    var colorScheme = theme.colorScheme;
     return Scaffold(
+      backgroundColor: colorScheme.surfaceVariant,
       appBar: AppBar(
-        title: Text(this.widget.tag.name!),
-        backgroundColor: theme.colorScheme.surfaceVariant,
+        title: Text(this.widget.tag.name!,style: theme.textTheme.titleMedium,),
+        foregroundColor: colorScheme.secondary,
         bottom: TabBar(
           controller: _tabController,
           tabs: const <Widget>[
@@ -83,8 +86,16 @@ class _TagContentPageState extends State<TagContentPage>
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          TagsContent(tags: tagsContent,tagPageService: tagPageService,),
-          VideosContent(videos: videosContent,tagPageService: tagPageService,),
+          TagsContent(
+            tags: tagsContent,
+            tagPageService: tagPageService,
+            tag: this.widget.tag,
+          ),
+          VideosContent(
+            videos: videosContent,
+            tagPageService: tagPageService,
+            tag: this.widget.tag,
+          ),
         ],
       ),
     );
@@ -92,69 +103,187 @@ class _TagContentPageState extends State<TagContentPage>
 }
 
 //Tags页面
-class TagsContent extends StatelessWidget {
-  final List<Tag> tags;
+class TagsContent extends StatefulWidget {
+  List<Tag> tags;
   final TagPageService tagPageService;
-  const TagsContent({Key? key, required this.tags,required this.tagPageService}) : super(key: key);
+  final Tag tag;
+  TagsContent({Key? key, required this.tags, required this.tagPageService ,required this.tag})
+      : super(key: key);
+
+  @override
+  State<TagsContent> createState() => _TagsContentState();
+}
+
+class _TagsContentState extends State<TagsContent> {
   @override
   Widget build(BuildContext context) {
-    if (tags.isEmpty) {
+      void ChangePage({bool next = true}) async {
+          if (next) {
+            //检测是否有下一页
+            if (widget.tagPageService.tagPageOffset + 1 < widget.tagPageService.tagPageCount) {
+              await widget.tagPageService.ToTagPage(widget.tagPageService.tagPageOffset + 1);
+            }
+          }else{
+            //检测是否有上一页
+            if (widget.tagPageService.tagPageOffset > 0) {
+              await widget.tagPageService.ToTagPage(widget.tagPageService.tagPageOffset - 1);
+            }
+          }
+          setState(() {
+            widget.tags = widget.tagPageService.tagNowPage;
+          });
+      }
+    if (widget.tags.isEmpty) {
       return Center(
-        child: Text('这里是空的'),
+        child: Text('这里什么都没有哦'),
       );
     }
-    return LayoutBuilder(builder: (context, constraints) {
-      int axisCount = 1;
-      //通过不同的大小设定不同的行数
-      if (constraints.maxWidth >= 1200) {
-        axisCount = 5;
-      } else if (constraints.maxWidth >= 550) {
-        axisCount = 3;
-      } else if (constraints.maxWidth >= 300) {
-        axisCount = 2;
-      }
-      return CustomScrollView(
-        slivers: [
-          TGridText(
-            tags: tags,
-            axisCount: axisCount,
-          )
-        ],
-      );
-    });
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8,0,8,8),
+      child: LayoutBuilder(builder: (context, constraints) {
+        int axisCount = 1;
+        //通过不同的大小设定不同的行数
+        if (constraints.maxWidth >= 1200) {
+          axisCount = 5;
+        } else if (constraints.maxWidth >= 550) {
+          axisCount = 3;
+        } else if (constraints.maxWidth >= 300) {
+          axisCount = 2;
+        }
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: SizedBox(height: 5,),),
+            TGridText(
+              tags: widget.tags,
+              axisCount: axisCount,
+            ),
+            VBottomPageButton(
+              callback: ChangePage,
+            )
+          ],
+        );
+      }),
+    );
   }
 }
 
 //Videos页面
-class VideosContent extends StatelessWidget {
-  final List<Video> videos;
+class VideosContent extends StatefulWidget {
+  List<Video> videos;
   final TagPageService tagPageService;
-  const VideosContent({Key? key, required this.videos,required this.tagPageService}) : super(key: key);
+  final Tag tag;
+  VideosContent({Key? key, required this.videos, required this.tagPageService ,required this.tag}) : super(key: key);
+
+  @override
+  State<VideosContent> createState() => _VideosContentState();
+}
+
+class _VideosContentState extends State<VideosContent> {
   @override
   Widget build(BuildContext context) {
-    if (videos.isEmpty) {
+    void ChangePage({bool next = true}) async {
+      if (next) {
+        //检测是否有下一页
+        if (widget.tagPageService.videoPageOffset + 1 <
+            widget.tagPageService.videoPageCount) {
+          await widget.tagPageService
+              .ToVideoPage(widget.tagPageService.videoPageOffset + 1);
+        }
+      } else {
+        //检测是否有上一页
+        if (widget.tagPageService.videoPageOffset > 0) {
+          await widget.tagPageService
+              .ToVideoPage(widget.tagPageService.videoPageOffset - 1);
+        }
+      }
+      setState(() {
+        widget.videos = widget.tagPageService.videoNowPage;
+      });
+    }
+
+    if (widget.videos.isEmpty) {
       return Center(
-        child: Text('这里是空的'),
+        child: Text('这里什么都没有哦'),
       );
     }
-    return LayoutBuilder(builder: (context, constraints) {
-      int axisCount = 1;
-      //通过不同的大小设定不同的行数
-      if (constraints.maxWidth >= 1200) {
-        axisCount = 5;
-      } else if (constraints.maxWidth >= 550) {
-        axisCount = 3;
-      } else if (constraints.maxWidth >= 300) {
-        axisCount = 2;
-      }
-      return CustomScrollView(
-        slivers: [
-          VGridText(
-            videos: videos,
-            axisCount: axisCount,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: LayoutBuilder(builder: (context, constraints) {
+        int axisCount = 1;
+        //通过不同的大小设定不同的行数
+        if (constraints.maxWidth >= 1200) {
+          axisCount = 5;
+        } else if (constraints.maxWidth >= 550) {
+          axisCount = 3;
+        } else if (constraints.maxWidth >= 300) {
+          axisCount = 2;
+        }
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: SizedBox(height: 5,),),
+            VTGridText(
+              videos: widget.videos,
+              axisCount: axisCount,
+              tag: widget.tag,
+            ),
+            VBottomPageButton(
+              callback: ChangePage,
+            )
+          ],
+        );
+      }),
+    );
+  }
+}
+
+typedef ChangePage = void Function({bool next});
+
+class VBottomPageButton extends StatelessWidget {
+  final ChangePage callback;
+
+  const VBottomPageButton({Key? key, required this.callback}) : super(key: key);
+
+  //创建一个函数，传递两个参数，next:bool,video:bool
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Row(
+        children: [
+          Expanded(
+            child: Card(
+                child: ListTile(
+              leading: Icon(Icons.arrow_back),
+              title: Text(
+                '上一页',
+                textAlign: TextAlign.left,
+              ),
+              onTap: () {
+                callback(next: false);
+              },
+            )),
+          ),
+          Expanded(
+            child: Card(
+                child: ListTile(
+              trailing: Icon(Icons.arrow_forward),
+              title: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      '下一页',
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                callback(next: true);
+              },
+            )),
           )
         ],
-      );
-    });
+      ),
+    );
   }
 }

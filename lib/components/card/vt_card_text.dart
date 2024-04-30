@@ -1,16 +1,18 @@
+import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/model/video.dart';
 import 'package:app_v2/page/content_page/video_content_page.dart';
 import 'package:flutter/material.dart';
 
-class VCardText extends StatefulWidget {
+class VTCardText extends StatefulWidget {
   final Video video;
-  const VCardText({Key? key, required this.video}) : super(key: key);
+  final Tag tag;
+  const VTCardText({Key? key, required this.video ,required this.tag}) : super(key: key);
 
   @override
-  State<VCardText> createState() => _VCardTextState();
+  State<VTCardText> createState() => _VTCardTextState();
 }
 
-class _VCardTextState extends State<VCardText> {
+class _VTCardTextState extends State<VTCardText> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -18,17 +20,21 @@ class _VCardTextState extends State<VCardText> {
       final theme = Theme.of(context);
 
       //标题的color
-      final titleColor = theme.colorScheme.onSecondaryContainer.withOpacity(0.9);
-      final descriptionColor = theme.colorScheme.onSecondaryContainer.withOpacity(0.7);
+      final titleColor =
+          theme.colorScheme.onSecondaryContainer.withOpacity(0.9);
+      final descriptionColor =
+          theme.colorScheme.onSecondaryContainer.withOpacity(0.7);
       //自适应大小
       var titleStyle = theme.textTheme.bodySmall!.copyWith(color: titleColor);
-      var descriptionStyle = theme.textTheme.labelSmall!.copyWith(color: descriptionColor);
+      var descriptionStyle =
+          theme.textTheme.labelSmall!.copyWith(color: descriptionColor);
       double paddingHeight = 5;
       double sizeboxHeight = 1;
       int descriptionLine = 2;
       if (constraints.maxWidth > 250) {
         titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
-        descriptionStyle = theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
+        descriptionStyle =
+            theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
         paddingHeight = 8;
         sizeboxHeight = 3;
         descriptionLine = 3;
@@ -40,24 +46,30 @@ class _VCardTextState extends State<VCardText> {
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 200) {
         titleStyle = theme.textTheme.bodyMedium!.copyWith(color: titleColor);
-        descriptionStyle = theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
+        descriptionStyle =
+            theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
         paddingHeight = 5;
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 180) {
         titleStyle = theme.textTheme.bodyMedium!.copyWith(color: titleColor);
-        descriptionStyle = theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
+        descriptionStyle =
+            theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
         paddingHeight = 5;
         sizeboxHeight = 3;
       }
       return InkWell(
         onTap: () {
-          // 在这里添加你的点击事件处理代码
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) {
-          //     return VideoContentPage(video: widget.video,);
-          //   }),
-          // );
+          final route = MaterialPageRoute(
+            builder: (context) {
+              return VideoContentPage(video: widget.video,tag: widget.tag,);
+            },
+            settings: RouteSettings(name: 'VideoContentPage'), // 设置路由的名称
+          );
+          Navigator.pushAndRemoveUntil(
+            context,
+            route,
+            (Route<dynamic> route) => route.settings.name != 'VideoContentPage',
+          );
         },
         child: Card(
           color: theme.colorScheme.secondaryContainer,

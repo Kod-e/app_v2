@@ -1,6 +1,4 @@
 // video.dart
-import 'dart:ffi';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'picture.dart';
 

@@ -1,3 +1,4 @@
+import 'package:app_v2/page/content_page/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v2/api/config.dart';
 import 'package:app_v2/api/tag.dart';
@@ -21,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.person),
               title: Text('个人信息'),
               onTap: () {
-                print('个人信息');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage()));  
               },
             ),
           ),

@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 Dio configureDio() {
   final options = BaseOptions(
-    baseUrl: 'http://127.0.0.1:5015/',
+    baseUrl: 'https://api.bdsm123.com/',
     connectTimeout: Duration(seconds: 20),
     receiveTimeout: Duration(seconds: 20),
   );
@@ -12,12 +13,17 @@ Dio configureDio() {
   //添加拦截器
   anotherDio.interceptors.add(
   InterceptorsWrapper(
-    onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+    onRequest: (RequestOptions options, RequestInterceptorHandler handler) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
       // Do something before request is sent.
       // If you want to resolve the request with custom data,
       // you can resolve a `Response` using `handler.resolve(response)`.
       // If you want to reject the request with a error message,
       // you can reject with a `DioException` using `handler.reject(dioError)`.
+        if (token != null) {
+          options.headers['Authorization'] = 'Token $token';
+        }
       return handler.next(options);
     },
     onResponse: (Response response, ResponseInterceptorHandler handler) {

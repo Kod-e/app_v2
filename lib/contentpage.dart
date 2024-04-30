@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'page/root_page/generator_page.dart';
 import 'page/root_page/profile.dart';
 import 'page/root_page/test_page.dart';
-
+import 'page/root_page/home_page.dart';
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -18,10 +18,10 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0: //主页
-        page = GeneratorPage();
+        page = HomePage();
         break;
       case 1: //作者
-        page = Placeholder();
+        page = GeneratorPage();
         break;
       case 2: //收藏
         page = TestPage();
