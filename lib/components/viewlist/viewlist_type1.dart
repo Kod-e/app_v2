@@ -40,10 +40,12 @@ class _ViewListType1State extends State<ViewListType1> {
   //获得tagData
   Future<void> getTagData() async {
     final tag = await TagAPI.getTagData(widget.viewList.tid!);
-    setState(() {
-      tagContent = tag;
-      isLoading = false;
-    });
+    if(mounted) {
+      setState(() {
+        tagContent = tag;
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -53,82 +55,93 @@ class _ViewListType1State extends State<ViewListType1> {
     //标题的color
     final titleColor = theme.colorScheme.secondary.withOpacity(0.9);
     //自适应大小
-    var titleStyle = theme.textTheme.titleMedium!
-        .copyWith(color: titleColor, fontWeight: FontWeight.bold);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // 让 Column 的子 widget 左对齐
-      children: [
-        Align(
-          alignment: Alignment.centerLeft, // 让 Text 左对齐
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
-            child: InkWell(
-              onTap: () async {
-                setState(() {
-                  showLoading = true;
-                });
-                await getTagDataFuture; // 在 onTap 中等待 getTagData 的完成
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return TagContentPage(tag: tagContent);
-                  }),
-                );
-                setState(() {
-                  showLoading = false;
-                });
-              },
-              child: Row(
-                children: [
-                  Text(
-                    widget.viewList.name!,
-                    style: titleStyle,
-                  ),
-                  //右侧的箭头
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 1, 0, 0),
-                    child: Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 15,
-                      color: titleColor,
+    var titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.bold);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0,0,0,10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start, // 让 Column 的子 widget 左对齐
+        children: [
+          Align(
+            alignment: Alignment.centerLeft, // 让 Text 左对齐
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
+              child: InkWell(
+                onTap: () async {
+                  setState(() {
+                    showLoading = true;
+                  });
+                  await getTagDataFuture; // 在 onTap 中等待 getTagData 的完成
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return TagContentPage(tag: tagContent);
+                    }),
+                  );
+                  setState(() {
+                    showLoading = false;
+                  });
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      widget.viewList.name!,
+                      style: titleStyle,
                     ),
-                  ),
-                  if (showLoading)
+                    // 使用 Expanded 小部件填充剩余空间
+                    Expanded(
+                      child: Container(),
+                    ),
+                    // 添加 "查看更多" 文本
+                    Text(
+                      '查看更多',
+                      style: titleStyle,
+                    ),
+                    //右侧的箭头
                     Padding(
                       padding: const EdgeInsets.fromLTRB(4, 1, 0, 0),
-                      child: SizedBox(
-                          width: 15,
-                          height: 15,
-                          child: CircularProgressIndicator()),
-                    )
-                ],
+                      child: Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        size: 15,
+                        color: titleColor,
+                      ),
+                    ),
+                    if (showLoading)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(4, 1, 0, 0),
+                        child: SizedBox(
+                            width: 15,
+                            height: 15,
+                            child: CircularProgressIndicator()),
+                      )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        Container(
-          height: 200, // 设置你需要的高度
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: videosContent.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Row(
-                children: [
-                  if (index == 0)
-                    SizedBox(width: 5), // 如果索引为0，那么就添加一个宽度为10的 SizedBox
-                  Container(
-                    width: 200, // 给 TCardText 设置一个固定的宽度
-                    child: VTCardText(
-                      video: videosContent[index],
-                      tag: tagContent,
+          Container(
+            height: 200, // 设置你需要的高度
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: videosContent.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  children: [
+                    if (index == 0)
+                      SizedBox(width: 5), // 如果索引为0，那么就添加一个宽度为10的 SizedBox
+                    Container(
+                      width: 200, // 给 TCardText 设置一个固定的宽度
+                      child: VTCardText(
+                        video: videosContent[index],
+                        tag: tagContent,
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

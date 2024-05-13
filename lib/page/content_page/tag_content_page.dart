@@ -143,12 +143,14 @@ class _TagsContentState extends State<TagsContent> {
       child: LayoutBuilder(builder: (context, constraints) {
         int axisCount = 1;
         //通过不同的大小设定不同的行数
-        if (constraints.maxWidth >= 1200) {
+        if (constraints.maxWidth > 900) {
           axisCount = 5;
-        } else if (constraints.maxWidth >= 550) {
+        } else if (constraints.maxWidth > 600) {
           axisCount = 3;
-        } else if (constraints.maxWidth >= 300) {
+        } else if (constraints.maxWidth > 350) {
           axisCount = 2;
+        } else if (constraints.maxWidth > 250) {
+          axisCount = 1;
         }
         return CustomScrollView(
           slivers: [
@@ -211,12 +213,14 @@ class _VideosContentState extends State<VideosContent> {
       child: LayoutBuilder(builder: (context, constraints) {
         int axisCount = 1;
         //通过不同的大小设定不同的行数
-        if (constraints.maxWidth >= 1200) {
+        if (constraints.maxWidth > 900) {
           axisCount = 5;
-        } else if (constraints.maxWidth >= 550) {
+        } else if (constraints.maxWidth > 600) {
           axisCount = 3;
-        } else if (constraints.maxWidth >= 300) {
+        } else if (constraints.maxWidth > 350) {
           axisCount = 2;
+        } else if (constraints.maxWidth > 250) {
+          axisCount = 1;
         }
         return CustomScrollView(
           slivers: [

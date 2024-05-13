@@ -1,5 +1,6 @@
 import 'package:app_v2/model/user.dart';
 import 'package:app_v2/page/content_page/login_page.dart';
+import 'package:app_v2/page/content_page/upgrade_page.dart';
 import 'package:app_v2/service/user.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   User user = User.loading();
+  
   //在进入时看看是否有保存用户信息
   @override
   void initState(){
@@ -58,7 +60,7 @@ class _UserPageState extends State<UserPage> {
                 leading: Icon(Icons.workspace_premium),
                 title: Text('会员到期时间: ${user.premissionEndTime}'),
                 onTap: () {
-                  print('联系客服');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradePage()));  
                 },
               ),
             ),
@@ -66,9 +68,6 @@ class _UserPageState extends State<UserPage> {
               child: ListTile(
                 leading: Icon(Icons.create),
                 title: Text('创建时间: ${user.createTime}'),
-                onTap: () {
-                  print('联系客服');
-                },
               ),
             ),
             Card(
@@ -76,7 +75,6 @@ class _UserPageState extends State<UserPage> {
                 leading: Icon(Icons.contact_support),
                 title: Text('联系客服'),
                 onTap: () {
-                  print('联系客服');
                 },
               ),
             ),

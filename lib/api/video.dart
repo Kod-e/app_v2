@@ -19,4 +19,17 @@ class VideoAPI {
     }
     return Play.fromJson(response.data);
   }
+  //通过id获取video的信息
+  static Future<Video> getVideoInfo(int id) async {
+    final response = await dio.get(
+      '/video/get/info`',
+      queryParameters: {
+        'id': id
+      },
+    );
+    if (response.statusCode != 200) {
+      throw Exception(response.statusCode);
+    }
+    return Video.fromJson(response.data);
+  }
 }

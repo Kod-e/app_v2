@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Dio configureDio() {
   final options = BaseOptions(
     baseUrl: 'https://api.bdsm123.com/',
+    // baseUrl: 'http://127.0.0.1:5000',
     connectTimeout: Duration(seconds: 20),
     receiveTimeout: Duration(seconds: 20),
   );

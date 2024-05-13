@@ -1,4 +1,5 @@
 import 'package:app_v2/page/content_page/user_page.dart';
+import 'package:app_v2/page/content_page/upgrade_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_v2/api/config.dart';
 import 'package:app_v2/api/tag.dart';
@@ -32,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.money),
               title: Text('充值'),
               onTap: () {
-                print('充值');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradePage()));  
               },
             ),
           ),

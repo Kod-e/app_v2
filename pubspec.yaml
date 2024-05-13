@@ -21,7 +21,8 @@ dependencies:
   crypto: ^3.0.1
   video_player: ^2.8.6
   chewie: ^1.8.1
-
+  url_launcher: ^6.2.6
+  webview_flutter: ^2.0.13
 dev_dependencies:
   flutter_test:
     sdk: flutter

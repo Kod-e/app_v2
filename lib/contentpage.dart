@@ -1,5 +1,5 @@
+import 'package:app_v2/page/root_page/favorite_page.dart';
 import 'package:flutter/material.dart';
-import 'page/root_page/generator_page.dart';
 import 'page/root_page/profile.dart';
 import 'page/root_page/test_page.dart';
 import 'page/root_page/home_page.dart';
@@ -21,7 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = HomePage();
         break;
       case 1: //作者
-        page = GeneratorPage();
+        page = FavoritePage();
         break;
       case 2: //收藏
         page = TestPage();
