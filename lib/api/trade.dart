@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app_v2/api/config.dart';
 import 'package:app_v2/model/trade.dart';
 class UserAPI{

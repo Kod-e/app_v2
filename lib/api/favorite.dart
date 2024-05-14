@@ -64,6 +64,6 @@ class FavoriteAPI {
     final response = await dio.get(
       '/favoritelist/get/all'
     );
-    return response.data['data'];
+    return (response.data['data'] as List).map((i) => i as Map<String, dynamic>).toList();
   }
 }

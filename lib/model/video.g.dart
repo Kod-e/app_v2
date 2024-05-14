@@ -14,6 +14,9 @@ Video _$VideoFromJson(Map<String, dynamic> json) => Video(
           : Picture.fromJson(json['picture'] as Map<String, dynamic>),
       subtitle: json['subtitle'] as String?,
       description: json['description'] as String?,
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$VideoToJson(Video instance) => <String, dynamic>{
@@ -22,4 +25,5 @@ Map<String, dynamic> _$VideoToJson(Video instance) => <String, dynamic>{
       'picture': instance.picture,
       'subtitle': instance.subtitle,
       'description': instance.description,
+      'tags': instance.tags,
     };

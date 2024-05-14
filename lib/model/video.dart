@@ -1,4 +1,5 @@
 // video.dart
+import 'package:app_v2/model/tag.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'picture.dart';
 
@@ -11,13 +12,15 @@ class Video {
   final Picture? picture;
   final String? subtitle;
   final String? description;
+  final List<Tag>? tags;
 
   Video({
     required this.id, 
     this.name, 
     this.picture, 
     this.subtitle, 
-    this.description
+    this.description,
+    this.tags
   });
   
   factory Video.loading() {
@@ -30,7 +33,8 @@ class Video {
         avif: 'https://www.loliapi.com/acg/',
       ), 
       subtitle: '加载中...', 
-      description: '加载中...'
+      description: '加载中...',
+      tags: []
     );
   }
 

@@ -1,5 +1,4 @@
 import 'package:app_v2/components/grid/t_grid_text.dart';
-import 'package:app_v2/components/grid/v_grid_text.dart';
 import 'package:app_v2/components/grid/vt_grid_text.dart';
 import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/model/video.dart';
@@ -103,6 +102,7 @@ class _TagContentPageState extends State<TagContentPage>
 }
 
 //Tags页面
+// ignore: must_be_immutable
 class TagsContent extends StatefulWidget {
   List<Tag> tags;
   final TagPageService tagPageService;
@@ -147,7 +147,7 @@ class _TagsContentState extends State<TagsContent> {
           axisCount = 5;
         } else if (constraints.maxWidth > 600) {
           axisCount = 3;
-        } else if (constraints.maxWidth > 350) {
+        } else if (constraints.maxWidth > 400) {
           axisCount = 2;
         } else if (constraints.maxWidth > 250) {
           axisCount = 1;
@@ -170,6 +170,7 @@ class _TagsContentState extends State<TagsContent> {
 }
 
 //Videos页面
+// ignore: must_be_immutable
 class VideosContent extends StatefulWidget {
   List<Video> videos;
   final TagPageService tagPageService;
@@ -217,7 +218,7 @@ class _VideosContentState extends State<VideosContent> {
           axisCount = 5;
         } else if (constraints.maxWidth > 600) {
           axisCount = 3;
-        } else if (constraints.maxWidth > 350) {
+        } else if (constraints.maxWidth > 400) {
           axisCount = 2;
         } else if (constraints.maxWidth > 250) {
           axisCount = 1;

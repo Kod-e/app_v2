@@ -1,4 +1,5 @@
 import 'package:app_v2/page/root_page/favorite_page.dart';
+import 'package:app_v2/page/root_page/search_page.dart';
 import 'package:flutter/material.dart';
 import 'page/root_page/profile.dart';
 import 'page/root_page/test_page.dart';
@@ -23,11 +24,14 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1: //作者
         page = FavoritePage();
         break;
-      case 2: //收藏
-        page = TestPage();
+      case 2: //搜索
+        page = SearchPage();
         break;
       case 3: //个人
         page = ProfilePage();
+        break;
+      case 4: //测试
+        page = TestPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -61,13 +65,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         label: 'Favorites',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.terminal),
-                        label: '测试',
+                        icon: Icon(Icons.search),
+                        label: 'Search',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.person),
-                        label: '设置',
+                        label: 'Profile',
                       ),
+                      // BottomNavigationBarItem(
+                      //   icon: Icon(Icons.terminal),
+                      //   label: 'Terminal',
+                      // ),
                     ],
                     currentIndex: selectedIndex,
                     onTap: (value) {
@@ -93,13 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         label: Text('收藏夹'),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(Icons.favorite),
-                        label: Text('测试页面'),
+                        icon: Icon(Icons.search),
+                        label: Text('搜索'),
                       ),
                       NavigationRailDestination(
                         icon: Icon(Icons.person),
                         label: Text('设置'),
                       ),
+                      // NavigationRailDestination(
+                      //   icon: Icon(Icons.terminal),
+                      //   label: Text('测试'),
+                      // ),
                     ],
                     selectedIndex: selectedIndex,
                     onDestinationSelected: (value) {

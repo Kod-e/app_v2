@@ -1,8 +1,6 @@
 import 'package:app_v2/api/config.dart';
-import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/model/video.dart';
 import 'package:app_v2/model/play.dart';
-import 'package:dio/dio.dart';
 
 class VideoAPI { 
   //通过id获取video的play
@@ -22,7 +20,7 @@ class VideoAPI {
   //通过id获取video的信息
   static Future<Video> getVideoInfo(int id) async {
     final response = await dio.get(
-      '/video/get/info`',
+      '/video/get/info',
       queryParameters: {
         'id': id
       },

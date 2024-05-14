@@ -28,14 +28,18 @@ class _HomePageState extends State<HomePage> {
 
     //把viewlist添加到viewlists中
     for(var vl in pageData.viewlists!){
-      setState(() {
-        viewlists.add(vl);
-      });
+      if(mounted){
+        setState(() {
+          viewlists.add(vl);
+        });
+      }
     }
     //设置加载状态
-    setState(() {
-      isLoading = false;
-    });
+    if(mounted){
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
   @override
   Widget build(BuildContext context) {

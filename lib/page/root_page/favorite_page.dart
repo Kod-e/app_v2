@@ -23,10 +23,12 @@ class _FavoritePageState extends State<FavoritePage> {
   //获取收藏夹
   void getFavoriteLists() async {
     final lists = await FavoriteAPI.getFavoriteLists();
-    setState(() {
-      favoriteLists = lists;
-      isLoading = false;
-    });
+    if(mounted){
+      setState(() {
+        favoriteLists = lists;
+        isLoading = false;
+      });
+    }
   }
     
   @override

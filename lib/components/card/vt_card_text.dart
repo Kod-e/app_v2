@@ -31,29 +31,37 @@ class _VTCardTextState extends State<VTCardText> {
       double paddingHeight = 5;
       double sizeboxHeight = 1;
       int descriptionLine = 2;
-      if (constraints.maxWidth > 250) {
-        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
-        descriptionStyle =
-            theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
+      if (constraints.maxWidth > 350) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w800);
+        descriptionStyle = theme.textTheme.bodyLarge!.copyWith(color: descriptionColor);
+        paddingHeight = 8;
+        sizeboxHeight = 3;
+        descriptionLine = 4;
+      } else if (constraints.maxWidth > 300) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w800);
+        descriptionStyle = theme.textTheme.bodyLarge!.copyWith(color: descriptionColor);
+        paddingHeight = 8;
+        sizeboxHeight = 3;
+        descriptionLine = 3;
+      } else if (constraints.maxWidth > 250) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w800);
+        descriptionStyle = theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
         paddingHeight = 8;
         sizeboxHeight = 3;
         descriptionLine = 3;
       } else if (constraints.maxWidth > 220) {
-        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
-        descriptionStyle =
-            theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w700);
+        descriptionStyle = theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
         paddingHeight = 8;
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 200) {
         titleStyle = theme.textTheme.bodyMedium!.copyWith(color: titleColor);
-        descriptionStyle =
-            theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
+        descriptionStyle = theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
         paddingHeight = 5;
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 180) {
         titleStyle = theme.textTheme.bodyMedium!.copyWith(color: titleColor);
-        descriptionStyle =
-            theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
+        descriptionStyle = theme.textTheme.labelMedium!.copyWith(color: descriptionColor);
         paddingHeight = 5;
         sizeboxHeight = 3;
       }

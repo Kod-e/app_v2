@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_v2/model/play.dart';
 import 'package:app_v2/api/video.dart';
-import 'package:app_v2/main.dart';
 import 'package:app_v2/page/content_page/login_page.dart';
 import 'package:app_v2/page/content_page/upgrade_page.dart';
 import 'package:video_player/video_player.dart';

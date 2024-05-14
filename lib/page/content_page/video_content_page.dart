@@ -1,9 +1,9 @@
+import 'package:app_v2/components/dialog/favorite_dialog.dart';
 import 'package:app_v2/model/tag.dart';
 import 'package:app_v2/model/video.dart';
 import 'package:app_v2/components/grid/vt_grid_text.dart';
 import 'package:app_v2/service/tag_page.dart';
 import 'package:app_v2/components/player/player.dart';
-import 'package:app_v2/api/tag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -76,7 +76,7 @@ class _VideoContentPageState extends State<VideoContentPage> {
                         //标题和描述，只在title/description不为空时显示
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                             child: CustomScrollView(
                               slivers: [
                                 if (widget.video.name != null)
@@ -100,6 +100,31 @@ class _VideoContentPageState extends State<VideoContentPage> {
                                       ),
                                     ),
                                   ),
+                                //收藏按钮
+                                SliverToBoxAdapter(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                      Expanded(
+                                        child: Card(
+                                          child: ListTile(
+                                            leading: Icon(Icons.favorite),
+                                            title: Text(
+                                              '收藏',
+                                              textAlign: TextAlign.center, // 修改这里使文本居中
+                                            ),
+                                            onTap: () {
+                                              //在这里处理用户选择收藏的逻辑
+                                              showFavoriteDialog(widget.video.id, context);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      ],
+                                    ),
+                                  )
+                              ),
                                 //略缩图
                                 SliverToBoxAdapter(
                                     child: Padding(
@@ -124,9 +149,11 @@ class _VideoContentPageState extends State<VideoContentPage> {
                 ),
                 Expanded(
                     child: VideosContent(
-                          videos: videosContent,
-                          tagPageService: tagPageService,
-                          tag: widget.tag,
+                  maxWidth: constraints.maxWidth,
+                  id: widget.video.id,
+                  videos: videosContent,
+                  tagPageService: tagPageService,
+                  tag: widget.tag,
                 ))
               ],
             );
@@ -137,9 +164,11 @@ class _VideoContentPageState extends State<VideoContentPage> {
                 StreamPlayer(id: widget.video.id),
                 Expanded(
                     child: VideosContent(
+                  maxWidth: constraints.maxWidth,
                   videos: videosContent,
                   tagPageService: tagPageService,
                   tag: widget.tag,
+                  id: widget.video.id,
                   title: widget.video.name,
                   description: widget.video.description,
                 ))
@@ -165,10 +194,13 @@ class _VideoContentPageState extends State<VideoContentPage> {
 }
 
 //Videos页面
+// ignore: must_be_immutable
 class VideosContent extends StatefulWidget {
   List<Video> videos;
   final TagPageService tagPageService;
   final Tag tag;
+  final int id;
+  final double maxWidth;
   final String? title;
   final String? description;
   VideosContent(
@@ -176,6 +208,8 @@ class VideosContent extends StatefulWidget {
       required this.videos,
       required this.tagPageService,
       required this.tag,
+      required this.id,
+      required this.maxWidth,
       this.title,
       this.description})
       : super(key: key);
@@ -216,22 +250,23 @@ class _VideosContentState extends State<VideosContent> {
     final theme = Theme.of(context);
     //标题的color
     final titleColor = theme.colorScheme.onSurfaceVariant;
-    final descriptionColor = theme.colorScheme.onSurfaceVariant.withOpacity(0.7);
+    final descriptionColor =
+        theme.colorScheme.onSurfaceVariant.withOpacity(0.7);
     //标题的style
     var titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
-    var descriptionStyle = theme.textTheme.titleSmall!.copyWith(color: descriptionColor);
+    var descriptionStyle =
+        theme.textTheme.titleSmall!.copyWith(color: descriptionColor);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8,0,8,0),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: LayoutBuilder(builder: (context, constraints) {
-
         int axisCount = 1;
         //通过不同的大小设定不同的行数
         if (constraints.maxWidth >= 1200) {
           axisCount = 5;
-        } else if (constraints.maxWidth >= 550) {
+        } else if (constraints.maxWidth >= 600) {
           axisCount = 3;
-        } else if (constraints.maxWidth >= 300) {
+        } else if (constraints.maxWidth >= 400) {
           axisCount = 2;
         }
         return CustomScrollView(
@@ -262,6 +297,31 @@ class _VideosContentState extends State<VideosContent> {
                   ),
                 ),
               )),
+            //收藏按钮
+            if (widget.maxWidth < 500)
+              (SliverToBoxAdapter(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Card(
+                        child: ListTile(
+                          leading: Icon(Icons.favorite),
+                          title: Text(
+                            '收藏',
+                            textAlign: TextAlign.center, // 修改这里使文本居中
+                          ),
+                          onTap: () {
+                            //在这里处理用户选择收藏的逻辑
+                            showFavoriteDialog(widget.id, context);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ))),
             SliverToBoxAdapter(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),

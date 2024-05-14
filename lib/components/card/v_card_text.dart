@@ -1,3 +1,4 @@
+import 'package:app_v2/api/video.dart';
 import 'package:app_v2/model/video.dart';
 import 'package:app_v2/page/content_page/video_content_page.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,12 @@ class VCardText extends StatefulWidget {
 }
 
 class _VCardTextState extends State<VCardText> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       //获取主题
       final theme = Theme.of(context);
-
       //标题的color
       final titleColor = theme.colorScheme.onSecondaryContainer.withOpacity(0.9);
       final descriptionColor = theme.colorScheme.onSecondaryContainer.withOpacity(0.7);
@@ -26,16 +27,27 @@ class _VCardTextState extends State<VCardText> {
       double paddingHeight = 5;
       double sizeboxHeight = 1;
       int descriptionLine = 2;
-      if (constraints.maxWidth > 250) {
-        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
+      if (constraints.maxWidth > 350) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w800);
+        descriptionStyle = theme.textTheme.bodyLarge!.copyWith(color: descriptionColor);
+        paddingHeight = 8;
+        sizeboxHeight = 3;
+        descriptionLine = 4;
+      } else if (constraints.maxWidth > 300) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w800);
+        descriptionStyle = theme.textTheme.bodyLarge!.copyWith(color: descriptionColor);
+        paddingHeight = 8;
+        sizeboxHeight = 3;
+        descriptionLine = 3;
+      } else if (constraints.maxWidth > 250) {
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w800);
         descriptionStyle = theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
         paddingHeight = 8;
         sizeboxHeight = 3;
         descriptionLine = 3;
       } else if (constraints.maxWidth > 220) {
-        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor);
-        descriptionStyle =
-            theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: titleColor, fontWeight: FontWeight.w700);
+        descriptionStyle = theme.textTheme.bodyMedium!.copyWith(color: descriptionColor);
         paddingHeight = 8;
         sizeboxHeight = 3;
       } else if (constraints.maxWidth > 200) {
@@ -50,14 +62,17 @@ class _VCardTextState extends State<VCardText> {
         sizeboxHeight = 3;
       }
       return InkWell(
-        onTap: () {
+        onTap: () async {
+          isLoading = true;
+          Video fullVideo = await VideoAPI.getVideoInfo(widget.video.id);
           // 在这里添加你的点击事件处理代码
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) {
-          //     return VideoContentPage(video: widget.video,);
-          //   }),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return VideoContentPage(video: widget.video,tag: fullVideo.tags![0],);
+            }),
+          );
+          isLoading = false;
         },
         child: Card(
           color: theme.colorScheme.secondaryContainer,
@@ -82,7 +97,9 @@ class _VCardTextState extends State<VCardText> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
+                      child: isLoading 
+                      ? CircularProgressIndicator()
+                      : Text(
                         this.widget.video.name!,
                         style: titleStyle,
                         maxLines: 1,

@@ -1,7 +1,7 @@
+import 'package:app_v2/page/content_page/color_select_page.dart';
 import 'package:app_v2/page/content_page/user_page.dart';
 import 'package:app_v2/page/content_page/upgrade_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app_v2/api/config.dart';
 import 'package:app_v2/api/tag.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -43,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.settings),
               title: Text('主题设置'),
               onTap: () {
-                print('主题设置');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ColorSelectPage()));  
               },
             ),
           ),
@@ -54,23 +54,6 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text('联系客服'),
               onTap: () {
                 print('联系客服');
-              },
-            ),
-          ),
-          //测试api
-          Card(
-            child: ListTile(
-              leading: Icon(Icons.contact_support),
-              title: Text('测试API'),
-              onTap: () async {
-                // var respones =await dio.get("tag/get/data?id=31");
-                // print(respones);
-                var tag = await TagAPI.getTagData(31);
-                print("name: ${tag.name}");
-                var videos = await TagAPI.getTagVideos(31);
-                for (var video in videos) {
-                  print("video: ${video.name}");
-                }
               },
             ),
           ),

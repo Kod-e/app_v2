@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_v2/components/grid/v_grid_text.dart';
 
 class VGridTitleBar extends StatefulWidget {
   const VGridTitleBar({super.key});

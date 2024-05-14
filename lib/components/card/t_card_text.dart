@@ -21,18 +21,17 @@ class _TCardTextState extends State<TCardText> {
       //针对最小版本的自适应
       final theme = Theme.of(context);
       //自适应大小
-      var titleStyle =
-          theme.textTheme.labelMedium!.copyWith(color: Colors.white);
+      var titleStyle = theme.textTheme.labelMedium!.copyWith(color: Colors.white);
       double leftP = 10;
       double bP = 5;
       if (constraints.maxWidth > 220) {
-        titleStyle = theme.textTheme.titleLarge!.copyWith(color: Colors.white);
+        titleStyle = theme.textTheme.titleLarge!.copyWith(color: Colors.white , fontWeight: FontWeight.w800);
         leftP = 15;
         bP = 12;
       } else if (constraints.maxWidth > 200) {
-        titleStyle = theme.textTheme.titleMedium!.copyWith(color: Colors.white);
+        titleStyle = theme.textTheme.titleMedium!.copyWith(color: Colors.white , fontWeight: FontWeight.w700);
       } else if (constraints.maxWidth > 180) {
-        titleStyle = theme.textTheme.bodyLarge!.copyWith(color: Colors.white);
+        titleStyle = theme.textTheme.bodyLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.w600);
       }
       return InkWell(
         onTap: () {
