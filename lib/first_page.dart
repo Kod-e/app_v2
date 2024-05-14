@@ -1,7 +1,6 @@
 import 'package:app_v2/api/version.dart';
 import 'package:app_v2/contentpage.dart';
 import 'package:app_v2/page/content_page/color_select_page.dart';
-import 'package:app_v2/page/root_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';

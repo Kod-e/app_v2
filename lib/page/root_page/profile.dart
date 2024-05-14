@@ -2,7 +2,7 @@ import 'package:app_v2/page/content_page/color_select_page.dart';
 import 'package:app_v2/page/content_page/user_page.dart';
 import 'package:app_v2/page/content_page/upgrade_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app_v2/api/tag.dart';
+import 'package:url_launcher/url_launcher.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -11,6 +11,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  void JumpToSupport(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('点击确定跳转到客服'),
+          content: Text("如果没有自动跳转到客服的URL，请使用telegram添加@aaron13362"),
+          actions: <Widget>[
+            TextButton(
+              child: Text('确定'),
+              onPressed: () async {
+                try{
+                    await launchUrl(Uri.parse("https://t.me/aaron13362"));
+                }catch (e){}
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -53,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.contact_support),
               title: Text('联系客服'),
               onTap: () {
-                print('联系客服');
+                JumpToSupport(context);
               },
             ),
           ),
